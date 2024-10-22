@@ -1,37 +1,45 @@
 <script setup lang="ts">
 import type { SelectValue } from '@/models/select-value.type'
 
+const model = defineModel();
+
 defineProps<{
-  selectId: string,
-  dataTestId: string,
-  formKey: string,
+  fieldName: string,
+  displayName: string,
   options: Array<SelectValue>,
+  validity: boolean,
 }>();
 
 </script>
 
 <template>
-  Select Input
-
-  {{selectId}}
-  <!--<select
-    id="occupation"
-    data-test-id="occupation"
-    v-model="formData.occupation"
-    aria-invalid="false"
-  >
-    <option value="null">keine Angabe</option>
-    <option value="Angestellter">Angestellter</option>
-    <option value="Selbstständiger">Selbstständiger</option>
-    <option value="Banken und Finanzdienstleistung">
-      Banken und Finanzdienstleistung
-    </option>
-    <option value="Informationsdienstleistung">
-      Informationstechnologie
-    </option>
-  </select>-->
+  <div>
+    <label :for="fieldName">{{displayName}}</label>
+    <select
+      :id="fieldName"
+      :data-test-id="fieldName"
+      :aria-invalid="validity"
+      v-model="model"
+    >
+      <option disabled="disabled" selected="selected">-- bitte auswählen --</option>
+      <template v-if="options.length > 0">
+        <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
+      </template>
+    </select>
+  </div>
 </template>
 
 <style scoped>
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
 
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
 </style>

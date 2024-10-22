@@ -11,7 +11,7 @@ import ErrorItem from '@/components/errors/error-item.vue'
 import apiClientService from '@/services/api-client.service';
 import CreditApplicationForm from '@/components/CreditApplicationForm.vue'
 
-const formData = ref<CreditApplicationRequest>({
+const creditApplicationForm = ref<CreditApplicationRequest>({
   creditAmount: 10_000,
   firstName: '',
   lastName: '',
@@ -23,53 +23,67 @@ const formData = ref<CreditApplicationRequest>({
 
 const errors = ref<Array<string>>([]);
 
-const validateRequest = () => {
-  // /api/credit-application
 
-  // unset list of errors
+const validateForm = (form: CreditApplicationRequest): Array<string> | null => {
   errors.value = [];
 
-  const formValues = { ...formData.value }
-
   const validation: ValidationResult<CreditApplicationRequest> =
-    creditApplicationRequestSchema.validate(formValues, { abortEarly: false })
+    creditApplicationRequestSchema.validate(form, { abortEarly: false })
 
   if (validation.error !== undefined) {
-    errors.value = validation.error.details.map<string>((item: ValidationErrorItem) => item.message);
+    const errorMessages = validation.error.details.map<string>((item: ValidationErrorItem) => item.message);
+    errors.value = errorMessages;
+    return errorMessages;
   }
 
-  // no error, post to backend
-  if (validation.error === undefined) {
-    apiClientService.submitCreditApplication(formValues)
-      // eslint-disable-next-line
-      .then((response: AxiosResponse<CreditDecision, any>) => {
-        const decisionResult: CreditDecisionResult = response.data.decision;
+  return null;
+}
 
-        switch (decisionResult) {
-          case CreditDecisionResult.APPROVED:
-            alert('Ihr Antrag wurde genehmigt')
-            break
-          case CreditDecisionResult.CONDITIONAL_APPROVED:
-            alert('Ihr Antrag wurde mit Einschränkungen genehmigt')
-            break
-          case CreditDecisionResult.REVISED_TERMS:
-            alert(
-              'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert',
-            )
-            break
-          case CreditDecisionResult.DENIED:
-            alert(
-              'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer',
-            )
-            break
-          default:
-            alert('Ein unvorhergesehener Fehler ist aufgetreten!')
-            break
-        }
-      })
-      .catch(error => {
-        alert(error)
-      })
+const handleCreditDecision = (promise: Promise<AxiosResponse<CreditDecision, never>>) => {
+  promise
+    .then((response: AxiosResponse<CreditDecision, never>) => {
+      const decisionResult: CreditDecisionResult = response.data.decision;
+
+      switch (decisionResult) {
+        case CreditDecisionResult.APPROVED:
+          alert('Ihr Antrag wurde genehmigt')
+          break
+        case CreditDecisionResult.CONDITIONAL_APPROVED:
+          alert('Ihr Antrag wurde mit Einschränkungen genehmigt')
+          break
+        case CreditDecisionResult.REVISED_TERMS:
+          alert(
+            'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert',
+          )
+          break
+        case CreditDecisionResult.DENIED:
+          alert(
+            'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer',
+          )
+          break
+        default:
+          alert('Ein unvorhergesehener Fehler ist aufgetreten!')
+          break
+      }
+    })
+    .catch(error => {
+      alert(error)
+    });
+};
+
+
+const validateRequest = () => {
+  const formValues: CreditApplicationForm = { ...creditApplicationForm.value }
+
+  debugger;
+
+  const validationResult: Array<string> | null = validateForm(formValues);
+
+  // no error, post to backend
+  if ((validationResult?.length ?? 0) <= 0) {
+    handleCreditDecision(
+      apiClientService.submitCreditApplication(formValues)
+    );
   }
 }
 </script>
@@ -77,7 +91,7 @@ const validateRequest = () => {
 <template>
   <header>
 
-    <h1>Der "ich möchte Dinge finanzieren" Kredit</h1>
+    <h1>Der "ich möchte Dinge finanzieren" Kredit 💰</h1>
 
     <a href="https://www.pexels.com/photo/a-man-online-shopping-6994300/" target="_blank">
       <img
@@ -88,26 +102,31 @@ const validateRequest = () => {
     </a>
   </header>
 
-  <CreditApplicationForm/>
+  <error-item v-for="error in errors" :key="error" :message="error"></error-item>
 
-    <div class="wrapper">
+  <div class="wrapper">
 
-      <error-item v-for="error in errors" :key="error" :message="error"></error-item>
+    <form autocomplete="on" @submit.prevent="validateRequest">
 
-      <!--<div v-if="errors.length > 0">
-        <ul>
-          <li v-for="error in errors">{{error}}</li>
-        </ul>
-      </div>-->
+    <CreditApplicationForm
+      v-model="creditApplicationForm"
+    />
 
-
+      <!--<label for="firstName">Vorname</label>
+      <input
+        id="firstName"
+        data-test-id="firstName"
+        type="text"
+        autocomplete="given-name"
+        placeholder="Vorname"
+        aria-invalid="false"
+      />-->
 
       <!-- TODO - aria-attributes? -->
 
-      <form autocomplete="on" @submit.prevent="validateRequest">
 
         <!-- requested credit -->
-        <div>
+       <!-- <div>
           <label for="creditAmount">Kreditrahmen</label>
           <input
             id="creditAmount"
@@ -130,12 +149,10 @@ const validateRequest = () => {
             aria-invalid="false"
             aria-labelledby="creditAmount"
           />
-        </div>
-
-        <br />
+        </div>-->
 
         <!-- firstName -->
-        <div>
+        <!--<div>
           <label for="firstName">Vorname</label>
           <input
             id="firstName"
@@ -146,12 +163,10 @@ const validateRequest = () => {
             placeholder="Vorname"
             aria-invalid="false"
           />
-        </div>
-
-        <br />
+        </div>-->
 
         <!-- lastName -->
-        <div>
+        <!--<div>
           <label for="lastName">Nachname</label>
           <input
             id="lastName"
@@ -162,12 +177,10 @@ const validateRequest = () => {
             placeholder="Nachname"
             aria-invalid="false"
           />
-        </div>
-
-        <br />
+        </div>-->
 
         <!-- zipCode -->
-        <div>
+        <!--<div>
           <label for="zipCode">Postleitzahl</label>
           <input
             id="zipCode"
@@ -178,12 +191,10 @@ const validateRequest = () => {
             placeholder="Postleitzahl"
             aria-invalid="false"
           />
-        </div>
-
-        <br />
+        </div>-->
 
         <!-- occupation -->
-        <div>
+        <!--<div>
           <label for="occupation">Beschäftigung</label>
           <select
             id="occupation"
@@ -201,12 +212,10 @@ const validateRequest = () => {
               Informationstechnologie
             </option>
           </select>
-        </div>
-
-        <br />
+        </div>-->
 
         <!-- netIncome -->
-        <div>
+        <!--<div>
           <label for="monthlyNetIncome">Monatliches Netto-Einkommen</label>
           <input
             id="monthlyNetIncome"
@@ -228,12 +237,11 @@ const validateRequest = () => {
             step="50"
             aria-invalid="false"
           />
-        </div>
+        </div>-->
 
-        <br />
 
         <!-- expenses -->
-        <div>
+        <!--<div>
           <label for="monthlyExpenses">Monatliche Ausgaben</label>
           <input
             id="monthlyExpenses"
@@ -255,9 +263,7 @@ const validateRequest = () => {
             step="50"
             aria-invalid="false"
           />
-        </div>
-
-        <br /><br />
+        </div>-->
 
         <input
           id="submitButton"
@@ -300,7 +306,8 @@ input[type=submit] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  float: right;
+  float: left;
+  margin-bottom: 2em;
 }
 
 input[type=submit]:hover {

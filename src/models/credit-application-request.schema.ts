@@ -34,10 +34,9 @@ export const creditApplicationRequestSchema = Joi.object<CreditApplicationReques
   occupation: Joi
     .string()
     .valid(
-      Occupations.EMPLOYED,
-      Occupations.SELF_EMPLOYED,
-      Occupations.BANKING,
-      Occupations.INFORMATION_TECHNOLOGY,
+      ...Object
+        .entries(Occupations)
+        .map(([key, ]) => key),
     )
     .messages({
       'any.only': 'Bitte wählen Sie eine gültige Beschäftigung aus',

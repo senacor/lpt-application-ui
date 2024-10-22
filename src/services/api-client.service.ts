@@ -7,7 +7,7 @@ const backendBaseUrl = window.VUE_CONFIG?.backendBaseUrl ?? '';
 export default {
   submitCreditApplication(
     creditApplication: CreditApplicationRequest,
-  ): AxiosResponse<CreditDecision> {
+  ): Promise<AxiosResponse<CreditDecision>> {
     return axios
       .post<CreditDecision>(
         `${backendBaseUrl}/api/credit-application`,
@@ -23,11 +23,11 @@ export default {
       )
   },
   // TODO - currently we do not have a uuid available
-  acceptCreditApplication(
+  acceptCreditApplication<T>(
     uuid: string
-  ) {
+  ): Promise<AxiosResponse<T>> {
     return axios
-      .post<unknown>(
+      .post<T>(
         `${backendBaseUrl}/api/credit-application/${uuid}/accept`
       )
   }
