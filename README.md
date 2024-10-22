@@ -1,6 +1,5 @@
 # lpt-application-ui
-
-This template should help get you started developing with Vue 3 in Vite.
+UI used for the credit application application, fetching the credit data of a customer
 
 ## Recommended IDE Setup
 
