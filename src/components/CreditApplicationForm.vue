@@ -23,7 +23,7 @@ const form = defineModel<CreditApplicationRequest>();
   ></SliderInput>
   <!-- Vorname -->
   <TextInput
-    field-name="vorname"
+    field-name="firstName"
     display-name="Vorname"
     v-model="form!.firstName"
     placeholder="Vorname"
@@ -32,7 +32,7 @@ const form = defineModel<CreditApplicationRequest>();
   ></TextInput>
   <!-- Nachname -->
   <TextInput
-    field-name="nachname"
+    field-name="lastName"
     display-name="Nachname"
     v-model="form!.lastName"
     placeholder="Nachname"
