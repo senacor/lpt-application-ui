@@ -22,6 +22,7 @@ export default {
         },
       )
   },
+
   // TODO - currently we do not have a uuid available
   acceptCreditApplication<T>(
     uuid: string

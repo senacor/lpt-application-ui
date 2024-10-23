@@ -2,7 +2,7 @@ describe('Form fields', () => {
 
   beforeEach(() => {
     cy.visit('/');
-  })
+  });
 
   it('opens the application and displays the correct information', () => {
     cy.title()

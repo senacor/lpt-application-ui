@@ -76,6 +76,13 @@ const form = defineModel<CreditApplicationRequest>();
     :step="50"
     :validity="true"
   ></SliderInput>
+
+  <input
+    id="submitButton"
+    data-test-id="submitButton"
+    type="submit"
+    value="Antrag prüfen"
+  />
 </template>
 
 <style scoped>
@@ -86,7 +93,8 @@ const form = defineModel<CreditApplicationRequest>();
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    float: right;
+    float: left;
+    margin-top: 2em;
   }
 
   input[type=submit]:hover {
