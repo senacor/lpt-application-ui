@@ -7,35 +7,35 @@ jobs:
     runs-on: ubuntu-latest
     container: node:22
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Get npm cache directory
-      id: npm-cache-dir
-      shell: bash
-      run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-    - name: Cache dependencies
-      uses: actions/cache@v4.0.1
-      id: npm-cache
-      with:
-        path: |
-          ${{ steps.npm-cache-dir.outputs.dir }}
-          /github/home/.cache/Cypress
-        key: npm-cypress-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          npm-cypress-
-          npm-
-    - name: Install dependencies
-      run: npm ci --prefer-offline --no-audit --no-progress --no-fund
-    - name: Lint application code
-      shell: bash
-      run: npm run lint
-    - name: Build application
-      shell: bash
-      run: npm run build
-    - name: Run unit tests
-      shell: bash
-      run: npm run test:unit
-    - name: Run E2E tests
-      shell: bash
-      run: npm run test:e2e
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - name: Cache dependencies
+        uses: actions/cache@v4.0.1
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            /github/home/.cache/Cypress
+          key: npm-cypress-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-cypress-
+            npm-
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-progress --no-fund
+      - name: Lint application code
+        shell: bash
+        run: npm run lint
+      - name: Build application
+        shell: bash
+        run: npm run build
+      - name: Run unit tests
+        shell: bash
+        run: npm run test:unit
+      - name: Run E2E tests
+        shell: bash
+        run: npm run test:e2e
