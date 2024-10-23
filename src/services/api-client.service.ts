@@ -23,12 +23,11 @@ export default {
       )
   },
 
-  // TODO - currently we do not have a uuid available
-  acceptCreditApplication<T>(
+  acceptCreditApplication(
     uuid: string
-  ): Promise<AxiosResponse<T>> {
+  ): Promise<AxiosResponse> {
     return axios
-      .post<T>(
+      .post(
         `${backendBaseUrl}/api/credit-application/${uuid}/accept`
       )
   }

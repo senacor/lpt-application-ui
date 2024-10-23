@@ -39,6 +39,7 @@ export const interceptCreditApplicationRequest = (
         statusCode: statusCode,
         body: {
           decision: decisionResult,
+          uuid: '9ede583d-17f0-4950-b282-effcbaff3ca0',
         },
       }
     )

@@ -22,6 +22,11 @@ const creditApplicationRequestForm = ref<CreditApplicationRequest>({
   monthlyExpenses: 1_600,
 });
 
+const creditDecisionResult = ref<CreditDecision>({
+  uuid: '',
+  decision: undefined,
+});
+
 const creditAmountDisplay = computed(() => {
   return (creditApplicationRequestForm.value.creditAmount/1)
     .toFixed(2)
@@ -69,32 +74,35 @@ const handleCreditDecision = (promise: Promise<AxiosResponse<CreditDecision, any
   promise
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .then((response: AxiosResponse<CreditDecision, any>) => {
+      creditDecisionResult.value = response.data;
+
+      const uuid: string = response.data.uuid;
       const decisionResult: CreditDecisionResult = response.data.decision;
 
       switch (decisionResult) {
         case CreditDecisionResult.APPROVED:
-          alert('Ihr Antrag wurde genehmigt')
-          break
+          alert('Ihr Antrag wurde genehmigt');
+          break;
         case CreditDecisionResult.CONDITIONAL_APPROVED:
-          alert('Ihr Antrag wurde mit Einschränkungen genehmigt')
-          break
+          alert('Ihr Antrag wurde mit Einschränkungen genehmigt');
+          break;
         case CreditDecisionResult.REVISED_TERMS:
           alert(
             'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert',
-          )
-          break
+          );
+          break;
         case CreditDecisionResult.DENIED:
           alert(
             'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer',
-          )
-          break
+          );
+          break;
         default:
-          alert('Ein unvorhergesehener Fehler ist aufgetreten!')
-          break
+          alert('Ein unvorhergesehener Fehler ist aufgetreten!');
+          break;
       }
     })
     .catch(error => {
-      alert(error)
+      alert(error);
     });
 };
 
@@ -110,6 +118,23 @@ const validateRequest = () => {
     );
   }
 }
+
+const acceptCreditOffering = () => {
+  if(!!creditDecisionResult.value.uuid) {
+    apiClientService.acceptCreditApplication(uuid)
+      .then((response: AxiosResponse) => {
+        if(response.status >= 200 && response.status < 300) {
+          alert('Antrag erfolgreich angenommen!');
+        } else {
+          alert('Antrag konnte nicht angenommen werden!');
+        }
+
+        // display error or redirect to target page
+      })
+  } else {
+    alert('No uuid is set, cannot accept the offering');
+  }
+};
 </script>
 
 <template>
@@ -130,6 +155,7 @@ const validateRequest = () => {
     <error-item v-for="error in errors" :key="error" :message="error"></error-item>
   </template>
 
+  <!-- "page" 1 - form -->
   <div class="wrapper">
     <form autocomplete="on" @submit.prevent="validateRequest">
       <CreditApplicationForm
@@ -138,10 +164,11 @@ const validateRequest = () => {
     </form>
   </div>
 
-  <!--<div class="wrapper">
+  <!-- "page" 2 - confirm -->
+  <div class="wrapper">
     <dl>
       <dt>Antrags-ID</dt>
-      <dd>UUID</dd>
+      <dd>{{creditDecisionResult.uuid}}</dd>
 
       <dt>Kreditvolumen</dt>
       <dd>{{creditAmountDisplay}}</dd>
@@ -164,9 +191,11 @@ const validateRequest = () => {
       <dt>Monatliche Ausgaben</dt>
       <dd>{{monthlyExpensesDisplay}}</dd>
     </dl>
-  </div>-->
 
-  <!--<div class="wrapper">
+    <button @click="acceptCreditOffering()">Angebot annehmen</button>
+  </div>
+
+  <div class="wrapper">
     <nav>
       <RouterLink to="/form">Form</RouterLink>
       <RouterLink to="/confirm">Confirm</RouterLink>
@@ -174,7 +203,7 @@ const validateRequest = () => {
     </nav>
 
     <RouterView />
-  </div>-->
+  </div>
 </template>
 
 <style scoped>
