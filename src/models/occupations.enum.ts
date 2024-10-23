@@ -23,7 +23,7 @@ export enum Occupations {
 
 export const getOccupationsAsSelectValueArray = (): Array<SelectValue> => Object
   .entries(Occupations)
-  .map(([key, value]): Array<SelectValue> => ({
+  .map(([key, value]): SelectValue => ({
   label: value,
   value: key,
-}))
+}));

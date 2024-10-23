@@ -11,7 +11,7 @@ import ErrorItem from '@/components/errors/error-item.vue'
 import apiClientService from '@/services/api-client.service';
 import CreditApplicationForm from '@/components/CreditApplicationForm.vue'
 
-const creditApplicationForm = ref<CreditApplicationRequest>({
+const creditApplicationRequestForm = ref<CreditApplicationRequest>({
   creditAmount: 10_000,
   firstName: '',
   lastName: '',
@@ -39,9 +39,11 @@ const validateForm = (form: CreditApplicationRequest): Array<string> | null => {
   return null;
 }
 
-const handleCreditDecision = (promise: Promise<AxiosResponse<CreditDecision, never>>) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleCreditDecision = (promise: Promise<AxiosResponse<CreditDecision, any>>) => {
   promise
-    .then((response: AxiosResponse<CreditDecision, never>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .then((response: AxiosResponse<CreditDecision, any>) => {
       const decisionResult: CreditDecisionResult = response.data.decision;
 
       switch (decisionResult) {
@@ -73,10 +75,7 @@ const handleCreditDecision = (promise: Promise<AxiosResponse<CreditDecision, nev
 
 
 const validateRequest = () => {
-  const formValues: CreditApplicationForm = { ...creditApplicationForm.value }
-
-  debugger;
-
+  const formValues: CreditApplicationRequest = creditApplicationRequestForm.value;
   const validationResult: Array<string> | null = validateForm(formValues);
 
   // no error, post to backend
@@ -109,7 +108,7 @@ const validateRequest = () => {
     <form autocomplete="on" @submit.prevent="validateRequest">
 
     <CreditApplicationForm
-      v-model="creditApplicationForm"
+      v-model="creditApplicationRequestForm"
     />
 
       <!--<label for="firstName">Vorname</label>

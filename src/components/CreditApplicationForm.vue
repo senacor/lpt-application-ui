@@ -7,7 +7,7 @@ import type { SelectValue } from '@/models/select-value.type'
 import type { CreditApplicationRequest } from '@/models/credit-application-request.type'
 
 const occupationOptions: Array<SelectValue> = getOccupationsAsSelectValueArray();
-const form: CreditApplicationRequest = defineModel();
+const form = defineModel<CreditApplicationRequest>();
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const form: CreditApplicationRequest = defineModel();
   <SliderInput
     field-name="creditAmount"
     display-name="Kreditrahmen"
-    v-model="form.creditAmount"
+    v-model="form!.creditAmount"
     :min="5_000"
     :max="100_000"
     :step="1_000"
@@ -25,7 +25,7 @@ const form: CreditApplicationRequest = defineModel();
   <TextInput
     field-name="vorname"
     display-name="Vorname"
-    v-model="form.firstName"
+    v-model="form!.firstName"
     placeholder="Vorname"
     auto-complete="given-name"
     :validity="true"
@@ -34,7 +34,7 @@ const form: CreditApplicationRequest = defineModel();
   <TextInput
     field-name="nachname"
     display-name="Nachname"
-    v-model="form.lastName"
+    v-model="form!.lastName"
     placeholder="Nachname"
     auto-complete="family-name"
     :validity="true"
@@ -43,7 +43,7 @@ const form: CreditApplicationRequest = defineModel();
   <TextInput
     field-name="zipCode"
     display-name="Postleitzahl"
-    v-model="form.zipCode"
+    v-model="form!.zipCode"
     placeholder="Postleitzahl"
     auto-complete="postal-code"
     :validity="true"
@@ -52,7 +52,7 @@ const form: CreditApplicationRequest = defineModel();
   <SelectInput
     field-name="occupation"
     display-name="Beschäftigung / Tätigkeit"
-    v-model="form.occupation"
+    v-model="form!.occupation"
     :options="occupationOptions"
     :validity="true"
   />
@@ -60,7 +60,7 @@ const form: CreditApplicationRequest = defineModel();
   <SliderInput
     field-name="monthlyNetIncome"
     display-name="Monatliches Netto-Einkommen"
-    v-model="form.monthlyNetIncome"
+    v-model="form!.monthlyNetIncome"
     :min="500"
     :max="20_000"
     :step="50"
@@ -70,7 +70,7 @@ const form: CreditApplicationRequest = defineModel();
   <SliderInput
     field-name="monthlyExpenses"
     display-name="Monatliche Ausgaben"
-    v-model="form.monthlyExpenses"
+    v-model="form!.monthlyExpenses"
     :min="500"
     :max="20_000"
     :step="50"

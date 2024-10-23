@@ -21,7 +21,7 @@ defineProps<{
       :aria-invalid="validity"
       v-model="model"
     >
-      <option disabled="disabled" selected="selected">-- bitte auswählen --</option>
+      <option disabled="true" selected="true">-- bitte auswählen --</option>
       <template v-if="options.length > 0">
         <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
       </template>
