@@ -10,18 +10,18 @@ const router = createRouter({
     {
       path: '/form',
       name: 'form',
-      component: () => import('../views/FormView.vue'),
+      component: () => import('./views/FormView.vue'),
     },
     {
       path: '/confirm',
       name: 'confirm',
-      component: () => import('../views/ConfirmView.vue'),
+      component: () => import('./views/ConfirmView.vue'),
     },
     {
       path: '/success',
       name: 'success',
-      component: () => import('../views/SuccessView.vue'),
-    }
+      component: () => import('./views/SuccessView.vue'),
+    },
   ],
 })
 

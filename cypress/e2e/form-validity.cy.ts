@@ -1,6 +1,6 @@
 import { setFormValues, submitForm } from '../support/commands'
-import { Occupations } from '../../src/models/occupations.enum'
-import type { CreditApplicationRequest } from '../../src/models/credit-application-request.type'
+import { Occupations } from '../../src/creditapplication/models/occupations.enum'
+import type { CreditApplicationRequest } from '../../src/creditapplication/models/credit-application-request.type'
 
 const exampleForm: CreditApplicationRequest = {
   creditAmount: 25_000,
@@ -41,7 +41,7 @@ describe('Form validity', () => {
 
       cy
         .get('[data-test-id="error-item"]')
-        .should('contain.text', 'Das Feld "Vorname" darf nicht leer sein');
+        .should('contain.text', 'Das Feld "Vorname" darf nicht leer sein.');
     });
 
     it('lastName is empty', () => {
@@ -58,7 +58,7 @@ describe('Form validity', () => {
 
       cy
         .get('[data-test-id="error-item"]')
-        .should('contain.text', 'Das Feld "Nachname" darf nicht leer sein');
+        .should('contain.text', 'Das Feld "Nachname" darf nicht leer sein.');
     });
 
     it('zipCode is empty', () => {
@@ -75,7 +75,7 @@ describe('Form validity', () => {
 
       cy
         .get('[data-test-id="error-item"]')
-        .should('contain.text', 'Das Feld "Postleitzahl" darf nicht leer sein');
+        .should('contain.text', 'Das Feld "Postleitzahl" darf nicht leer sein.');
     });
 
     it('occupation is empty', () => {
@@ -92,8 +92,8 @@ describe('Form validity', () => {
 
       cy
         .get('[data-test-id="error-item"]')
-        .should('contain.text', 'Das Feld "Beschäftigung" darf nicht leer sein')
-        .should('contain.text', 'Bitte wählen Sie eine gültige Beschäftigung aus');
+        .should('contain.text', 'Das Feld "Beschäftigung" darf nicht leer sein.')
+        .should('contain.text', 'Bitte wählen Sie eine gültige Beschäftigung aus.');
     });
   });
 });

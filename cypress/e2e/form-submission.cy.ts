@@ -1,7 +1,7 @@
 import { creditApplicationRequestAlias, interceptCreditApplicationRequest } from '../support/requests'
-import { CreditDecisionResult } from '../../src/models/credit-decision-result.enum'
+import { CreditDecisionResult } from '../../src/creditapplication/models/credit-decision-result.enum'
 import { setFormValues, submitForm } from '../support/commands'
-import { Occupations } from '../../src/models/occupations.enum'
+import { Occupations } from '../../src/creditapplication/models/occupations.enum'
 
 describe('Form submission', () => {
   beforeEach(() => {

@@ -1,10 +1,5 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
-<template>
-  Confirm
-</template>
+<template>Confirm</template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 
-import type { CreditApplicationRequest } from '@/models/credit-application-request.type'
+import type { CreditApplicationRequest } from '@/creditapplication/models/credit-application-request.type'
 import { computed, ref } from 'vue'
 import { type AxiosResponse } from 'axios'
-import type { CreditDecision } from '@/models/credit-decision.type'
-import { CreditDecisionResult } from '@/models/credit-decision-result.enum'
-import { creditApplicationRequestSchema } from '@/models/credit-application-request.schema'
+import type { CreditDecision } from '@/creditapplication/models/credit-decision.type'
+import { CreditDecisionResult } from '@/creditapplication/models/credit-decision-result.enum'
+import { creditApplicationRequestSchema } from '@/creditapplication/models/credit-application-request.schema'
 import { type ValidationErrorItem, type ValidationResult } from 'joi'
-import ErrorItem from '@/components/errors/error-item.vue'
-import apiClientService from '@/services/api-client.service';
-import CreditApplicationForm from '@/components/CreditApplicationForm.vue'
+import ErrorItem from '@/basis-components/errors/error-item.vue'
+import apiClientService from '@/creditapplication/credit-application.adapter'
+import CreditApplicationForm from '@/creditapplication/credit-application-form.vue'
 
 const creditApplicationRequestForm = ref<CreditApplicationRequest>({
   creditAmount: 10_000,
@@ -20,129 +20,138 @@ const creditApplicationRequestForm = ref<CreditApplicationRequest>({
   occupation: '',
   monthlyNetIncome: 2_200,
   monthlyExpenses: 1_600,
-});
+})
 
 const creditDecisionResult = ref<CreditDecision>({
   uuid: '',
-  decision: undefined,
-});
+  decision: null,
+})
 
 const creditAmountDisplay = computed(() => {
-  return (creditApplicationRequestForm.value.creditAmount/1)
-    .toFixed(2)
-    .replace('.', ',')
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' €'
-});
+  return (
+    (creditApplicationRequestForm.value.creditAmount / 1)
+      .toFixed(2)
+      .replace('.', ',')
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €'
+  )
+})
 
 const monthlyNetIncomeDisplay = computed(() => {
-  return (creditApplicationRequestForm.value.monthlyNetIncome/1)
-    .toFixed(2)
-    .replace('.', ',')
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' €'
-});
+  return (
+    (creditApplicationRequestForm.value.monthlyNetIncome / 1)
+      .toFixed(2)
+      .replace('.', ',')
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €'
+  )
+})
 
 const monthlyExpensesDisplay = computed(() => {
-  return (creditApplicationRequestForm.value.monthlyExpenses/1)
-    .toFixed(2)
-    .replace('.', ',')
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' €'
-});
+  return (
+    (creditApplicationRequestForm.value.monthlyExpenses / 1)
+      .toFixed(2)
+      .replace('.', ',')
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €'
+  )
+})
 
-const errors = ref<Array<string>>([]);
-
+const errors = ref<Array<string>>([])
 
 const validateForm = (form: CreditApplicationRequest): Array<string> | null => {
-  errors.value = [];
+  errors.value = []
 
   const validation: ValidationResult<CreditApplicationRequest> =
     creditApplicationRequestSchema.validate(form, { abortEarly: false })
 
   if (validation.error !== undefined) {
-    const errorMessages = validation.error.details.map<string>((item: ValidationErrorItem) => item.message);
-    errors.value = errorMessages;
-    return errorMessages;
+    const errorMessages = validation.error.details.map<string>(
+      (item: ValidationErrorItem) => item.message,
+    )
+    errors.value = errorMessages
+    return errorMessages
   }
 
-  return null;
+  return null
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleCreditDecision = (promise: Promise<AxiosResponse<CreditDecision, any>>) => {
+const handleCreditDecision = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  promise: Promise<AxiosResponse<CreditDecision, any>>,
+) => {
   promise
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .then((response: AxiosResponse<CreditDecision, any>) => {
-      creditDecisionResult.value = response.data;
+      creditDecisionResult.value = response.data
 
-      const uuid: string = response.data.uuid;
-      const decisionResult: CreditDecisionResult = response.data.decision;
+      const decisionResult: CreditDecisionResult = response.data.decision
 
       switch (decisionResult) {
         case CreditDecisionResult.APPROVED:
-          alert('Ihr Antrag wurde genehmigt');
-          break;
+          alert('Ihr Antrag wurde genehmigt.')
+          break
         case CreditDecisionResult.CONDITIONAL_APPROVED:
-          alert('Ihr Antrag wurde mit Einschränkungen genehmigt');
-          break;
+          alert('Ihr Antrag wurde mit Einschränkungen genehmigt.')
+          break
         case CreditDecisionResult.REVISED_TERMS:
           alert(
-            'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert',
-          );
-          break;
+            'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert.',
+          )
+          break
         case CreditDecisionResult.DENIED:
           alert(
-            'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer',
-          );
-          break;
+            'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer.',
+          )
+          break
         default:
-          alert('Ein unvorhergesehener Fehler ist aufgetreten!');
-          break;
+          alert('Ein unvorhergesehener Fehler ist aufgetreten!')
+          break
       }
     })
     .catch(error => {
-      alert(error);
-    });
-};
-
+      alert(error)
+    })
+}
 
 const validateRequest = () => {
-  const formValues: CreditApplicationRequest = creditApplicationRequestForm.value;
-  const validationResult: Array<string> | null = validateForm(formValues);
+  const formValues: CreditApplicationRequest =
+    creditApplicationRequestForm.value
+  const validationResult: Array<string> | null = validateForm(formValues)
 
   // no error, post to backend
   if ((validationResult?.length ?? 0) <= 0) {
-    handleCreditDecision(
-      apiClientService.submitCreditApplication(formValues)
-    );
+    handleCreditDecision(apiClientService.submitCreditApplication(formValues))
   }
 }
 
 const acceptCreditOffering = () => {
-  if(!!creditDecisionResult.value.uuid) {
-    apiClientService.acceptCreditApplication(uuid)
+  if (!!creditDecisionResult.value.uuid) {
+    apiClientService
+      .acceptCreditApplication(uuid)
       .then((response: AxiosResponse) => {
-        if(response.status >= 200 && response.status < 300) {
-          alert('Antrag erfolgreich angenommen!');
+        if (response.status >= 200 && response.status < 300) {
+          alert('Antrag erfolgreich angenommen!')
         } else {
-          alert('Antrag konnte nicht angenommen werden!');
+          alert('Antrag konnte nicht angenommen werden!')
         }
 
         // display error or redirect to target page
       })
   } else {
-    alert('No uuid is set, cannot accept the offering');
+    alert('No uuid is set, cannot accept the offering')
   }
-};
+}
 </script>
 
 <template>
   <header>
-
     <h1>Der "ich möchte Dinge finanzieren" Kredit 💰</h1>
 
-    <a href="https://www.pexels.com/photo/a-man-online-shopping-6994300/" target="_blank">
+    <a
+      href="https://www.pexels.com/photo/a-man-online-shopping-6994300/"
+      target="_blank"
+    >
       <img
         alt="Man ordering stuff online"
         src="@/assets/pexels-kindelmedia-6994300.jpg"
@@ -152,15 +161,17 @@ const acceptCreditOffering = () => {
   </header>
 
   <template v-if="(errors.length ?? 0) > 0">
-    <error-item v-for="error in errors" :key="error" :message="error"></error-item>
+    <error-item
+      v-for="error in errors"
+      :key="error"
+      :message="error"
+    ></error-item>
   </template>
 
   <!-- "page" 1 - form -->
   <div class="wrapper">
     <form autocomplete="on" @submit.prevent="validateRequest">
-      <CreditApplicationForm
-        v-model="creditApplicationRequestForm"
-      />
+      <CreditApplicationForm v-model="creditApplicationRequestForm" />
     </form>
   </div>
 
@@ -168,28 +179,28 @@ const acceptCreditOffering = () => {
   <div class="wrapper">
     <dl>
       <dt>Antrags-ID</dt>
-      <dd>{{creditDecisionResult.uuid}}</dd>
+      <dd>{{ creditDecisionResult.uuid }}</dd>
 
       <dt>Kreditvolumen</dt>
-      <dd>{{creditAmountDisplay}}</dd>
+      <dd>{{ creditAmountDisplay }}</dd>
 
       <dt>Vorname</dt>
-      <dd>{{creditApplicationRequestForm.firstName}}</dd>
+      <dd>{{ creditApplicationRequestForm.firstName }}</dd>
 
       <dt>Nachname</dt>
-      <dd>{{creditApplicationRequestForm.lastName}}</dd>
+      <dd>{{ creditApplicationRequestForm.lastName }}</dd>
 
       <dt>Postleitzahl</dt>
-      <dd>{{creditApplicationRequestForm.zipCode}}</dd>
+      <dd>{{ creditApplicationRequestForm.zipCode }}</dd>
 
       <dt>Beschäftigung / Tätigkeit</dt>
-      <dd>{{creditApplicationRequestForm.occupation}}</dd>
+      <dd>{{ creditApplicationRequestForm.occupation }}</dd>
 
       <dt>Monatliche Netto-Einkünfte</dt>
-      <dd>{{monthlyNetIncomeDisplay}}</dd>
+      <dd>{{ monthlyNetIncomeDisplay }}</dd>
 
       <dt>Monatliche Ausgaben</dt>
-      <dd>{{monthlyExpensesDisplay}}</dd>
+      <dd>{{ monthlyExpensesDisplay }}</dd>
     </dl>
 
     <button @click="acceptCreditOffering()">Angebot annehmen</button>

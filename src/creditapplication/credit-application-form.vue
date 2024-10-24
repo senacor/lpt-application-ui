@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import SelectInput from '@/components/form/select-input.vue'
-import TextInput from '@/components/form/text-input.vue'
-import SliderInput from '@/components/form/slider-input.vue'
-import { getOccupationsAsSelectValueArray } from '@/models/occupations.enum'
-import type { SelectValue } from '@/models/select-value.type'
-import type { CreditApplicationRequest } from '@/models/credit-application-request.type'
+import SelectInput from '@/basis-components/form-support/select-input.vue'
+import TextInput from '@/basis-components/form-support/text-input.vue'
+import SliderInput from '@/basis-components/form-support/slider-input.vue'
+import { getOccupationsAsSelectValueArray } from '@/creditapplication/models/occupations.enum'
+import type { SelectValue } from '@/creditapplication/models/select-value.type'
+import type { CreditApplicationRequest } from '@/creditapplication/models/credit-application-request.type'
 
-const occupationOptions: Array<SelectValue> = getOccupationsAsSelectValueArray();
-const form = defineModel<CreditApplicationRequest>();
+const occupationOptions: Array<SelectValue> = getOccupationsAsSelectValueArray()
+const form = defineModel<CreditApplicationRequest>()
 </script>
 
 <template>
@@ -86,18 +86,18 @@ const form = defineModel<CreditApplicationRequest>();
 </template>
 
 <style scoped>
-  input[type=submit] {
-    background-color: #04AA6D;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    float: left;
-    margin-top: 2em;
-  }
+input[type='submit'] {
+  background-color: #04aa6d;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+  margin-top: 2em;
+}
 
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
+input[type='submit']:hover {
+  background-color: #45a049;
+}
 </style>

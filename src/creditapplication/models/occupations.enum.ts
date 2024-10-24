@@ -1,4 +1,4 @@
-import type { SelectValue } from '@/models/select-value.type'
+import type { SelectValue } from '@/creditapplication/models/select-value.type'
 
 export enum Occupations {
   EMPLOYED = 'Angestellte/r',
@@ -21,9 +21,10 @@ export enum Occupations {
   STUDENT = 'Student/in',
 }
 
-export const getOccupationsAsSelectValueArray = (): Array<SelectValue> => Object
-  .entries(Occupations)
-  .map(([key, value]): SelectValue => ({
-  label: value,
-  value: key,
-}));
+export const getOccupationsAsSelectValueArray = (): Array<SelectValue> =>
+  Object.entries(Occupations).map(
+    ([key, value]): SelectValue => ({
+      label: value,
+      value: key,
+    }),
+  )

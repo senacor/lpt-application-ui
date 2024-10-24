@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import type { SelectValue } from '@/models/select-value.type'
+import type { SelectValue } from '@/creditapplication/models/select-value.type'
 
-const model = defineModel();
+const model = defineModel()
 
 defineProps<{
-  fieldName: string,
-  displayName: string,
-  options: Array<SelectValue>,
-  validity: boolean,
-}>();
-
+  fieldName: string
+  displayName: string
+  options: Array<SelectValue>
+  validity: boolean
+}>()
 </script>
 
 <template>
   <div>
-    <label :for="fieldName">{{displayName}}</label>
+    <label :for="fieldName">{{ displayName }}</label>
     <select
       :id="fieldName"
       :data-test-id="fieldName"
@@ -23,7 +22,13 @@ defineProps<{
     >
       <option disabled="true" selected="true">-- bitte auswählen --</option>
       <template v-if="options.length > 0">
-        <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
       </template>
     </select>
   </div>

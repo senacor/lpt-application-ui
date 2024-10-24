@@ -36,7 +36,7 @@
 //   }
 // }
 
-import { CreditApplicationRequest } from '../../src/models/credit-application-request.type'
+import { CreditApplicationRequest } from '../../src/creditapplication/models/credit-application-request.type'
 
 export const setFormValues = (form: CreditApplicationRequest) => {
   // credit amount

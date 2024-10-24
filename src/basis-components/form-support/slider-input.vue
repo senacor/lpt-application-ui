@@ -1,20 +1,19 @@
 <script setup lang="ts">
-
-const model = defineModel();
+const model = defineModel()
 
 defineProps<{
-  fieldName: string,
-  displayName: string,
+  fieldName: string
+  displayName: string
   min: number
-  max: number,
-  step: number,
-  validity: boolean,
-}>();
+  max: number
+  step: number
+  validity: boolean
+}>()
 </script>
 
 <template>
   <div>
-    <label :for="fieldName">{{displayName}}</label>
+    <label :for="fieldName">{{ displayName }}</label>
     <input
       :id="fieldName"
       :data-test-id="fieldName"
@@ -39,7 +38,8 @@ defineProps<{
 </template>
 
 <style scoped>
-input[type=range], input[type=number] {
+input[type='range'],
+input[type='number'] {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;

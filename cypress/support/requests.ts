@@ -1,4 +1,4 @@
-import { CreditDecisionResult } from '../../src/models/credit-decision-result.enum'
+import { CreditDecisionResult } from '../../src/creditapplication/models/credit-decision-result.enum'
 
 export const backendBaseUrl: string = 'http://localhost:8080';
 export const validateCreditApplicationEndpoint: string = '/api/credit-application';
