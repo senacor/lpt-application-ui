@@ -2,22 +2,25 @@
   <div class="wrapper">
     <dl>
       <dt>Antrags-ID</dt>
-      <dd>{{ decision?.uuid || 'Unknown' }}</dd>
+      <dd>{{ decision?.uuid || '-' }}</dd>
+
+      <dt>Antrags-Status</dt>
+      <dd>{{ decision?.decision || '-' }}</dd>
 
       <dt>Kreditvolumen</dt>
       <dd>{{ creditAmountDisplay }}</dd>
 
       <dt>Vorname</dt>
-      <dd>{{ latestRequest?.firstName || 'Unknown' }}</dd>
+      <dd>{{ latestRequest?.firstName || '-' }}</dd>
 
       <dt>Nachname</dt>
-      <dd>{{ latestRequest?.lastName || 'Unknown' }}</dd>
+      <dd>{{ latestRequest?.lastName || '-' }}</dd>
 
       <dt>Postleitzahl</dt>
-      <dd>{{ latestRequest?.zipCode || 'Unknown' }}</dd>
+      <dd>{{ latestRequest?.zipCode || '-' }}</dd>
 
       <dt>Beschäftigung / Tätigkeit</dt>
-      <dd>{{ latestRequest?.occupation || 'Unknown' }}</dd>
+      <dd>{{ latestRequest?.occupation || '- ' }}</dd>
 
       <dt>Monatliche Netto-Einkünfte</dt>
       <dd>{{ monthlyNetIncomeDisplay }}</dd>
@@ -26,7 +29,12 @@
       <dd>{{ monthlyExpensesDisplay }}</dd>
     </dl>
 
-    <button @click="acceptCreditOffering">Angebot annehmen</button>
+    <button
+      :disabled="!decision || !decision.uuid"
+      @click="acceptCreditOffering"
+    >
+      Angebot annehmen
+    </button>
   </div>
 </template>
 <script setup lang="ts">
@@ -39,19 +47,18 @@ const store = useCreditApplicationStore()
 const router = useRouter()
 const { latestRequest, decision } = storeToRefs(store)
 
-const creditAmountDisplay = computed(() => {
-  return (
-    (latestRequest.value!.creditAmount / 1)
+const creditAmountDisplay = computed(
+  () =>
+    ((latestRequest.value?.creditAmount || 0) / 1)
       .toFixed(2)
       .replace('.', ',')
       .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €'
-  )
-})
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €',
+)
 
 const monthlyNetIncomeDisplay = computed(
   () =>
-    (latestRequest.value!.monthlyNetIncome / 1)
+    ((latestRequest.value?.monthlyNetIncome || 0) / 1)
       .toFixed(2)
       .replace('.', ',')
       .toString()
@@ -60,7 +67,7 @@ const monthlyNetIncomeDisplay = computed(
 
 const monthlyExpensesDisplay = computed(
   () =>
-    (latestRequest.value!.monthlyExpenses / 1)
+    ((latestRequest.value?.monthlyExpenses || 0) / 1)
       .toFixed(2)
       .replace('.', ',')
       .toString()
@@ -78,4 +85,19 @@ const acceptCreditOffering = () =>
     .catch(() => alert('Ein unerwarteter Fehler ist aufgetreten.'))
 </script>
 
-<style scoped></style>
+<style scoped>
+dl {
+  display: grid;
+  grid-gap: 4px 16px;
+  grid-template-columns: max-content;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin: 0;
+  grid-column-start: 2;
+}
+</style>

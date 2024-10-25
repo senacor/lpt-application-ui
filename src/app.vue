@@ -84,19 +84,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-
-dl {
-  display: grid;
-  grid-gap: 4px 16px;
-  grid-template-columns: max-content;
-}
-
-dt {
-  font-weight: bold;
-}
-
-dd {
-  margin: 0;
-  grid-column-start: 2;
-}
 </style>
