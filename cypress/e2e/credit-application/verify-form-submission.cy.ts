@@ -1,9 +1,9 @@
-import { creditApplicationRequestAlias, interceptCreditApplicationRequest } from '../support/requests'
-import { CreditDecisionResult } from '../../src/creditapplication/models/credit-decision-result.enum'
-import { setFormValues, submitForm } from '../support/commands'
-import { Occupations } from '../../src/creditapplication/models/occupations.enum'
+import { creditApplicationRequestAlias, interceptCreditApplicationRequest } from '../../support/requests'
+import { CreditDecisionResult } from '../../../src/credit-application/models/credit-decision-result.enum'
+import { setFormValues, submitForm } from '../../support/commands'
+import { Occupations } from '../../../src/credit-application/models/occupations.enum'
 
-describe('Form submission', () => {
+describe('Verify Form Submission', () => {
   beforeEach(() => {
     cy.visit('/');
   });

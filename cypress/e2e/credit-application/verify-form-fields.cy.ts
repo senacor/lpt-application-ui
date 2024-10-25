@@ -1,4 +1,4 @@
-describe('Form fields', () => {
+describe('Verify Form fields', () => {
 
   beforeEach(() => {
     cy.visit('/');

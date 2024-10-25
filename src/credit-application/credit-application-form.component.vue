@@ -1,15 +1,3 @@
-<script setup lang="ts">
-import SelectInput from '@/basis-components/form-support/select-input.vue'
-import TextInput from '@/basis-components/form-support/text-input.vue'
-import SliderInput from '@/basis-components/form-support/slider-input.vue'
-import { getOccupationsAsSelectValueArray } from '@/creditapplication/models/occupations.enum'
-import type { SelectValue } from '@/creditapplication/models/select-value.type'
-import type { CreditApplicationRequest } from '@/creditapplication/models/credit-application-request.type'
-
-const occupationOptions: Array<SelectValue> = getOccupationsAsSelectValueArray()
-const form = defineModel<CreditApplicationRequest>()
-</script>
-
 <template>
   <!-- Kreditrahmen -->
   <SliderInput
@@ -84,6 +72,18 @@ const form = defineModel<CreditApplicationRequest>()
     value="Antrag prüfen"
   />
 </template>
+
+<script setup lang="ts">
+import SelectInput from '@/basis-components/form-support/select-input.vue'
+import TextInput from '@/basis-components/form-support/text-input.vue'
+import SliderInput from '@/basis-components/form-support/slider-input.vue'
+import { getOccupationsAsSelectValueArray } from '@/credit-application/models/occupations.enum'
+import type { SelectValue } from '@/credit-application/models/select-value.type'
+import type { CreditApplicationRequest } from '@/credit-application/models/credit-application-request.type'
+
+const occupationOptions: Array<SelectValue> = getOccupationsAsSelectValueArray()
+const form = defineModel<CreditApplicationRequest>()
+</script>
 
 <style scoped>
 input[type='submit'] {

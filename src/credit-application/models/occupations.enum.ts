@@ -1,4 +1,4 @@
-import type { SelectValue } from '@/creditapplication/models/select-value.type'
+import type { SelectValue } from '@/credit-application/models/select-value.type'
 
 export enum Occupations {
   EMPLOYED = 'Angestellte/r',

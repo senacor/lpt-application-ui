@@ -1,6 +1,6 @@
-import { setFormValues, submitForm } from '../support/commands'
-import { Occupations } from '../../src/creditapplication/models/occupations.enum'
-import type { CreditApplicationRequest } from '../../src/creditapplication/models/credit-application-request.type'
+import { setFormValues, submitForm } from '../../support/commands'
+import { Occupations } from '../../../src/credit-application/models/occupations.enum'
+import type { CreditApplicationRequest } from '../../../src/credit-application/models/credit-application-request.type'
 
 const exampleForm: CreditApplicationRequest = {
   creditAmount: 25_000,
@@ -12,7 +12,7 @@ const exampleForm: CreditApplicationRequest = {
   monthlyExpenses: 5_000,
 };
 
-describe('Form validity', () => {
+describe('Verify Form Validation', () => {
 
   beforeEach(() => {
     cy.visit('/');

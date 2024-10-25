@@ -1,6 +1,6 @@
 import Joi from 'joi'
-import type { CreditApplicationRequest } from '@/creditapplication/models/credit-application-request.type'
-import { Occupations } from '@/creditapplication/models/occupations.enum'
+import type { CreditApplicationRequest } from '@/credit-application/models/credit-application-request.type'
+import { Occupations } from '@/credit-application/models/occupations.enum'
 
 export const creditApplicationRequestSchema = Joi.object<
   CreditApplicationRequest,
