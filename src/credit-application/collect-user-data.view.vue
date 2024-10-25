@@ -26,8 +26,10 @@ import type { CreditDecision } from '@/credit-application/models/credit-decision
 import { CreditDecisionResult } from '@/credit-application/models/credit-decision-result.enum'
 import ErrorItem from '@/basis-components/errors/error-item.vue'
 import { useCreditApplicationStore } from '@/credit-application/credit-applications.store'
+import { useRouter } from 'vue-router'
 
 const store = useCreditApplicationStore()
+const router = useRouter()
 
 const creditApplicationRequestForm = ref<CreditApplicationRequest>({
   creditAmount: 10_000,
@@ -43,12 +45,6 @@ const errors = ref<string[]>([])
 
 const handleCreditDecision = (decision: CreditDecision) => {
   switch (decision.decision) {
-    case CreditDecisionResult.APPROVED:
-      alert('Ihr Antrag wurde genehmigt.')
-      break
-    case CreditDecisionResult.CONDITIONAL_APPROVED:
-      alert('Ihr Antrag wurde mit Einschränkungen genehmigt.')
-      break
     case CreditDecisionResult.REVISED_TERMS:
       alert(
         'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert.',
@@ -59,9 +55,11 @@ const handleCreditDecision = (decision: CreditDecision) => {
         'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer.',
       )
       break
+
+    // CreditDecisionResult.APPROVED:
+    // CreditDecisionResult.CONDITIONAL_APPROVED
     default:
-      alert('Ein unvorhergesehener Fehler ist aufgetreten!')
-      break
+      router.push('/confirm')
   }
 }
 

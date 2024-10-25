@@ -11,8 +11,8 @@
   </svg>
 
   <div class="success-message">
-    Ihr Kreditantrag wurde erfolgreich versendet. Wir kümmern uns nun um alles
-    weitere!
+    <p>Ihr Kreditantrag wurde erfolgreich angenommen.</p>
+    <p>Wir kümmern uns nun um alles Weitere!</p>
   </div>
 </template>
 
