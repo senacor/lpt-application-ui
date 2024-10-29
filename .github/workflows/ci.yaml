@@ -56,30 +56,30 @@ jobs:
         with:
           task: get-measurement
           label: 'lint app'
-#      - name: Build application
-#        shell: bash
-#        run: npm run build
-#      - name: Build Measurement
-#        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-#        with:
-#          task: get-measurement
-#          label: 'build app'
-#      - name: Run unit tests
-#        shell: bash
-#        run: npm run test:unit
-#      - name: Unit Tests Measurement
-#        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-#        with:
-#          task: get-measurement
-#          label: 'unit tests'
-#      - name: Run E2E tests
-#        shell: bash
-#        run: npm run test:e2e
-#      - name: E2E Tests Measurement
-#        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-#        with:
-#          task: get-measurement
-#          label: 'e2e tests'
+      - name: Build application
+        shell: bash
+        run: npm run build
+      - name: Build Measurement
+        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+        with:
+          task: get-measurement
+          label: 'build app'
+      - name: Run unit tests
+        shell: bash
+        run: npm run test:unit
+      - name: Unit Tests Measurement
+        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+        with:
+          task: get-measurement
+          label: 'unit tests'
+      - name: Run E2E tests
+        shell: bash
+        run: npm run test:e2e
+      - name: E2E Tests Measurement
+        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+        with:
+          task: get-measurement
+          label: 'e2e tests'
       - name: Show Energy Results
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
