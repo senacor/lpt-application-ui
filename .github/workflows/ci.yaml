@@ -3,27 +3,17 @@ name: lpt-application-ui CI
 on: [push]
 
 permissions:
-  read-all
-
+  actions: read
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-    container: node:22
 
     steps:
-      - name: Install Eco-CI Dependencies
-        run: |
-          apt-get update
-          apt-get install -y curl jq gawk coreutils bash
-      - name: Start Measurement
-        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+      - name: Eco-CI Init
+        uses: green-coding-berlin/eco-ci-energy-estimation@main
         with:
           task: start-measurement
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # continue-on-error: true # recommended setting for production. See notes below.
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Checkout Repo Measurement
