@@ -2,14 +2,22 @@ name: lpt-application-ui CI
 
 on: [push]
 
+permissions:
+  read-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       actions: read
+      contents: read
     container: node:22
 
     steps:
+      - name: Install Eco-CI Dependencies
+        run: |
+          apt-get update
+          apt-get install -y jq gawk coreutils
       - name: Start Measurement
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
