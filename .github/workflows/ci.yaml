@@ -10,18 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-      contents: read
     container: node:22
 
     steps:
       - name: Install Eco-CI Dependencies
         run: |
           apt-get update
-          apt-get install -y jq gawk coreutils
+          apt-get install -y curl jq gawk coreutils bash
       - name: Start Measurement
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
           task: start-measurement
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # continue-on-error: true # recommended setting for production. See notes below.
       - name: Checkout repository
         uses: actions/checkout@v4
