@@ -46,3 +46,12 @@ jobs:
       - name: Build application
         shell: bash
         run: npm run build
+      - name: GCP Auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+         project_id: ${{ vars.GOOGLE_PROJECT_ID }}
+         credentials_json: ${{ secrets.AUTOMATION_SA_KEY_JSON }}
+      - name: Copy dist to bucket
+        shell: bash
+        run: |
+          gsutil cp dist/ gs://lpt-ui
