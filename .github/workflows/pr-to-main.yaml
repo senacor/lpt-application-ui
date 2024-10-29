@@ -1,6 +1,16 @@
 name: lpt-application-ui CI
 
-on: [push]
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - synchronize
+    branches:
+      # Only run on pull requests targeting main
+      - main
 
 jobs:
   build:
@@ -8,7 +18,7 @@ jobs:
     container: node:22
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
       - name: Get npm cache directory
         id: npm-cache-dir
@@ -27,15 +37,12 @@ jobs:
             npm-
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-progress --no-fund
-      - name: Lint application code
+      - name: Check linting across the board
         shell: bash
-        run: npm run lint
+        run: npm run lint:ci
+      - name: Run unit tests
+        shell: bash
+        run: npm run test:cover
       - name: Build application
         shell: bash
         run: npm run build
-      - name: Run unit tests
-        shell: bash
-        run: npm run test:unit
-      - name: Run E2E tests
-        shell: bash
-        run: npm run test:e2e
