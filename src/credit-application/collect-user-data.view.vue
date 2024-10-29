@@ -1,31 +1,24 @@
 <template>
   <template v-if="(errors.length ?? 0) > 0">
-    <error-item
-      v-for="error in errors"
-      :key="error"
-      :message="error"
-    ></error-item>
+    <error-item v-for="error in errors" :key="error" :message="error"></error-item>
   </template>
   <div class="wrapper">
-    <form
-      autocomplete="on"
-      @submit.prevent="validateFormAndRequestCreditDecision"
-    >
+    <form autocomplete="on" @submit.prevent="validateFormAndRequestCreditDecision">
       <CreditApplicationForm v-model="creditApplicationRequestForm" />
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import CreditApplicationForm from '@/credit-application/credit-application-form.component.vue'
-import type { CreditApplicationRequest } from '@/credit-application/models/credit-application-request.type'
-import { ref } from 'vue'
-import type { ValidationErrorItem, ValidationResult } from 'joi'
-import { creditApplicationRequestSchema } from '@/credit-application/models/credit-application-request.schema'
-import type { CreditDecision } from '@/credit-application/models/credit-decision.type'
-import { CreditDecisionResult } from '@/credit-application/models/credit-decision-result.enum'
 import ErrorItem from '@/basis-components/errors/error-item.vue'
+import CreditApplicationForm from '@/credit-application/credit-application-form.component.vue'
 import { useCreditApplicationStore } from '@/credit-application/credit-applications.store'
+import { creditApplicationRequestSchema } from '@/credit-application/models/credit-application-request.schema'
+import type { CreditApplicationRequest } from '@/credit-application/models/credit-application-request.type'
+import { CreditDecisionResult } from '@/credit-application/models/credit-decision-result.enum'
+import type { CreditDecision } from '@/credit-application/models/credit-decision.type'
+import type { ValidationErrorItem, ValidationResult } from 'joi'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const store = useCreditApplicationStore()
@@ -38,7 +31,7 @@ const creditApplicationRequestForm = ref<CreditApplicationRequest>({
   zipCode: '',
   occupation: '',
   monthlyNetIncome: 2_200,
-  monthlyExpenses: 1_600,
+  monthlyExpenses: 1_600
 })
 
 const errors = ref<string[]>([])
@@ -46,14 +39,10 @@ const errors = ref<string[]>([])
 const handleCreditDecision = (decision: CreditDecision) => {
   switch (decision.decision) {
     case CreditDecisionResult.REVISED_TERMS:
-      alert(
-        'Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert.',
-      )
+      alert('Die Bedingungen für ihren Antrag wurden zwischenzeitlich geändert.')
       break
     case CreditDecisionResult.DENIED:
-      alert(
-        'Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer.',
-      )
+      alert('Ihr Antrag wurde abgelehnt. Bitte wenden Sie sich an einen Kundenbetreuer.')
       break
 
     // CreditDecisionResult.APPROVED:
@@ -73,15 +62,12 @@ const validateFormAndRequestCreditDecision = async () => {
 }
 
 const validateForm = (form: CreditApplicationRequest): string[] => {
-  const validation: ValidationResult<CreditApplicationRequest> =
-    creditApplicationRequestSchema.validate(form, { abortEarly: false })
+  const validation: ValidationResult<CreditApplicationRequest> = creditApplicationRequestSchema.validate(form, {
+    abortEarly: false
+  })
 
   return validation.error !== undefined
-    ? validation.error.details.map<string>(
-        (item: ValidationErrorItem) => item.message,
-      )
+    ? validation.error.details.map<string>((item: ValidationErrorItem) => item.message)
     : []
 }
 </script>
-
-<style scoped></style>

@@ -65,21 +65,16 @@
     :validity="true"
   ></SliderInput>
 
-  <input
-    id="submitButton"
-    data-test-id="submitButton"
-    type="submit"
-    value="Antrag prüfen"
-  />
+  <input id="submitButton" data-test-id="submitButton" type="submit" value="Antrag prüfen" />
 </template>
 
 <script setup lang="ts">
 import SelectInput from '@/basis-components/form-support/select-input.vue'
-import TextInput from '@/basis-components/form-support/text-input.vue'
 import SliderInput from '@/basis-components/form-support/slider-input.vue'
+import TextInput from '@/basis-components/form-support/text-input.vue'
+import type { CreditApplicationRequest } from '@/credit-application/models/credit-application-request.type'
 import { getOccupationsAsSelectValueArray } from '@/credit-application/models/occupations.enum'
 import type { SelectValue } from '@/credit-application/models/select-value.type'
-import type { CreditApplicationRequest } from '@/credit-application/models/credit-application-request.type'
 
 const occupationOptions: Array<SelectValue> = getOccupationsAsSelectValueArray()
 const form = defineModel<CreditApplicationRequest>()

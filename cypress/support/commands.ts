@@ -40,101 +40,58 @@ import { CreditApplicationRequest } from '../../src/credit-application/models/cr
 
 export const setFormValues = (form: CreditApplicationRequest) => {
   // credit amount
-  cy
-    .get('[data-test-id="creditAmount"]')
-    .should('exist');
+  cy.get('[data-test-id="creditAmount"]').should('exist')
 
   // update the range slider
-  cy
-    .get('[data-test-id="creditAmount"]')
-    .invoke('val', form.creditAmount);
-  cy
-    .get('[data-test-id="creditAmount"]')
-    .trigger('input');
+  cy.get('[data-test-id="creditAmount"]').invoke('val', form.creditAmount)
+  cy.get('[data-test-id="creditAmount"]').trigger('input')
 
   // firstName
-  cy
-    .get('[data-test-id="firstName"]')
-    .should('exist');
+  cy.get('[data-test-id="firstName"]').should('exist')
 
-  if(!!form.firstName) {
-    cy
-      .get('[data-test-id="firstName"]')
-      .type(form.firstName);
+  if (!!form.firstName) {
+    cy.get('[data-test-id="firstName"]').type(form.firstName)
   } else {
-    cy
-      .get('[data-test-id="firstName"]')
-      .clear();
+    cy.get('[data-test-id="firstName"]').clear()
   }
 
   // lastName
-  cy
-    .get('[data-test-id="lastName"]')
-    .should('exist');
+  cy.get('[data-test-id="lastName"]').should('exist')
 
-  if(!!form.lastName) {
-    cy
-      .get('[data-test-id="lastName"]')
-      .type(form.lastName);
+  if (!!form.lastName) {
+    cy.get('[data-test-id="lastName"]').type(form.lastName)
   } else {
-    cy
-      .get('[data-test-id="lastName"]')
-      .clear();
+    cy.get('[data-test-id="lastName"]').clear()
   }
 
   // zipCode
-  cy
-    .get('[data-test-id="zipCode"]')
-    .should('exist');
-  if(!!form.zipCode) {
-    cy
-      .get('[data-test-id="zipCode"]')
-      .type(form.zipCode);
+  cy.get('[data-test-id="zipCode"]').should('exist')
+  if (!!form.zipCode) {
+    cy.get('[data-test-id="zipCode"]').type(form.zipCode)
   } else {
-    cy.get('[data-test-id="zipCode"]')
-      .clear();
+    cy.get('[data-test-id="zipCode"]').clear()
   }
 
   // occupation
-  cy
-    .get('[data-test-id="occupation"]')
-    .should('exist');
-  if(!!form.occupation) {
-    cy
-      .get('[data-test-id="occupation"]')
-      .select(form.occupation);
+  cy.get('[data-test-id="occupation"]').should('exist')
+  if (!!form.occupation) {
+    cy.get('[data-test-id="occupation"]').select(form.occupation)
   }
 
   // net-income
-  cy
-    .get('[data-test-id="monthlyNetIncome"]')
-    .should('exist');
+  cy.get('[data-test-id="monthlyNetIncome"]').should('exist')
 
-  cy
-    .get('[data-test-id="monthlyNetIncome"]')
-    .invoke('val', form.monthlyNetIncome);
-  cy
-    .get('[data-test-id="monthlyNetIncome"]')
-    .trigger('input');
+  cy.get('[data-test-id="monthlyNetIncome"]').invoke('val', form.monthlyNetIncome)
+  cy.get('[data-test-id="monthlyNetIncome"]').trigger('input')
 
   // expenses
-  cy
-    .get('[data-test-id="monthlyExpenses"]')
-    .should('exist');
+  cy.get('[data-test-id="monthlyExpenses"]').should('exist')
 
-  cy
-    .get('[data-test-id="monthlyExpenses"]')
-    .invoke('val', form.monthlyExpenses);
-  cy
-    .get('[data-test-id="monthlyExpenses"]')
-    .trigger('input');
-};
+  cy.get('[data-test-id="monthlyExpenses"]').invoke('val', form.monthlyExpenses)
+  cy.get('[data-test-id="monthlyExpenses"]').trigger('input')
+}
 
 export const submitForm = () => {
-  cy
-    .get('[data-test-id="submitButton"]')
-    .should('exist');
-  cy
-    .get('[data-test-id="submitButton"]')
-    .click({force: true});
+  cy.get('[data-test-id="submitButton"]').should('exist')
+  cy.get('[data-test-id="submitButton"]').click({ force: true })
 }

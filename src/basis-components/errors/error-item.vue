@@ -6,9 +6,7 @@ defineProps<{
 
 <template>
   <div class="alert" data-test-id="error-item">
-    <span class="closebtn" onclick="this.parentElement.style.display='none';"
-      >&times;</span
-    >
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     {{ message }}
   </div>
 </template>
