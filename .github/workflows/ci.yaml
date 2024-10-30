@@ -83,3 +83,13 @@ jobs:
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
           task: display-results
+      - name: Run Baseline Measurement
+        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+        with:
+          task: display-results
+          json-output: true
+      - name: Store Baseline
+        uses: actions/upload-artifact@v3
+        with:
+          name: energy-baseline
+          path: /tmp/eco-ci/total-data.json
