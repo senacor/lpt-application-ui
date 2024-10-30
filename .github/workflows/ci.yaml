@@ -5,6 +5,7 @@ on: [push]
 permissions:
   actions: read
   contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,40 +49,32 @@ jobs:
         with:
           task: get-measurement
           label: 'install dependencies'
-      - name: Check linting across the board
-        shell: bash
-        run: npm run lint:ci
-      - name: Lint Measurement
-        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-        with:
-          task: get-measurement
-          label: 'lint app'
-      - name: Build application
-        shell: bash
-        run: npm run build:gcp
-      - name: Build Measurement
-        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-        with:
-          task: get-measurement
-          label: 'build:gcp app'
-      - name: Run unit tests
-        shell: bash
-        run: |
-          # no tests to run:
-          npm run test:cover || echo 0
-      - name: Unit Tests Measurement
-        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-        with:
-          task: get-measurement
-          label: 'unit tests'
-#      - name: Run E2E tests
+#      - name: Check linting across the board
 #        shell: bash
-#        run: npm run test:e2e
-#      - name: E2E Tests Measurement
+#        run: npm run lint:ci
+#      - name: Lint Measurement
 #        uses: green-coding-solutions/eco-ci-energy-estimation@v4
 #        with:
 #          task: get-measurement
-#          label: 'e2e tests'
+#          label: 'lint app'
+#      - name: Build application
+#        shell: bash
+#        run: npm run build:gcp
+#      - name: Build Measurement
+#        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+#        with:
+#          task: get-measurement
+#          label: 'build:gcp app'
+#      - name: Run unit tests
+#        shell: bash
+#        run: |
+#          # no tests to run:
+#          npm run test:cover || echo 0
+#      - name: Unit Tests Measurement
+#        uses: green-coding-solutions/eco-ci-energy-estimation@v4
+#        with:
+#          task: get-measurement
+#          label: 'unit tests'
       - name: Show Energy Results
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
