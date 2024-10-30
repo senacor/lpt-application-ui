@@ -15,7 +15,6 @@ on: # yamllint disable-line rule:truthy
 jobs:
   build-verify-deploy:
     runs-on: ubuntu-latest
-    container: node:22
 
     steps:
       - name: Checkout
