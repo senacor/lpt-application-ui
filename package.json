@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build --base=/lpt-ui/",
-    "build:gcp": "run-s build -- --mode=gcp",
+    "build:gcp": "npm run build -- --mode=gcp",
     "preview": "vite preview",
     "test": "vitest",
     "test:single": "npm test -- run",
