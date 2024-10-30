@@ -46,7 +46,7 @@ jobs:
           task: get-measurement
           label: 'cache npm dependencies'
       - name: Install dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --no-progress --no-fund
       - name: Install Dependencies Measurement
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
