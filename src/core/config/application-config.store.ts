@@ -15,7 +15,7 @@ export const useApplicationConfigStore = defineStore({
     },
     async loadApplicationConfig() {
       await this.applicationConfigAdapter
-        .loadApplicationConfig(!!window.mpContextBasePath)
+        .loadApplicationConfig()
         .then((_) => {
           this.config = _
         })

@@ -2,7 +2,7 @@ import { useApplicationConfigStore } from '@/core/config/application-config.stor
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_PATH),
   routes: [
     {
       path: '/',

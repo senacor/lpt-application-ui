@@ -46,7 +46,7 @@ jobs:
           npm run test:cover || echo 0
       - name: Build application
         shell: bash
-        run: npm run build
+        run: npm run build:gcp
       - name: GCP Auth
         uses: 'google-github-actions/auth@v2'
         with:
