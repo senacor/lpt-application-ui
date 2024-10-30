@@ -57,4 +57,4 @@ jobs:
       - name: Copy dist to bucket
         shell: bash
         run: |
-          gsutil cp dist/ gs://lpt-ui
+          gsutil -m -r cp ./dist gs://lpt-ui/
