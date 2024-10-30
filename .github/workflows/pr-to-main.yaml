@@ -1,0 +1,60 @@
+name:  build-verify-deploy
+
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - synchronize
+    branches:
+      # Only run on pull requests targeting main
+      - main
+
+jobs:
+  build-verify-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - name: Cache dependencies
+        uses: actions/cache@v4.0.1
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            /github/home/.cache/Cypress
+          key: npm-cypress-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-cypress-
+            npm-
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-progress --no-fund
+      - name: Check linting across the board
+        shell: bash
+        run: npm run lint:ci
+      - name: Run unit tests
+        shell: bash
+        run: | 
+          # no tests to run:
+          npm run test:cover || echo 0
+      - name: Build application
+        shell: bash
+        run: npm run build:gcp
+      - name: GCP Auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+         project_id: ${{ vars.GOOGLE_PROJECT_ID }}
+         credentials_json: ${{ secrets.AUTOMATION_SA_KEY_JSON }}
+      - name: Install gcloud cli
+        uses: 'google-github-actions/setup-gcloud@v2'
+      - name: Copy dist to bucket
+        shell: bash
+        run: |
+          gcloud storage cp -r dist/* gs://lpt-ui/

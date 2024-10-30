@@ -1,10 +1,10 @@
 /// <reference types="vite/client" />
-export {};
+export {}
 
 declare global {
   interface Window {
     VUE_CONFIG?: {
-      backendBaseUrl?: string,
-    };
+      backendBaseUrl?: string
+    }
   }
 }

@@ -14,19 +14,10 @@ defineProps<{
 <template>
   <div>
     <label :for="fieldName">{{ displayName }}</label>
-    <select
-      :id="fieldName"
-      :data-test-id="fieldName"
-      :aria-invalid="validity"
-      v-model="model"
-    >
+    <select :id="fieldName" :data-test-id="fieldName" :aria-invalid="validity" v-model="model">
       <option disabled="true" selected="true">-- bitte auswählen --</option>
       <template v-if="options.length > 0">
-        <option
-          v-for="option in options"
-          :key="option.value"
-          :value="option.value"
-        >
+        <option v-for="option in options" :key="option.value" :value="option.value">
           {{ option.label }}
         </option>
       </template>

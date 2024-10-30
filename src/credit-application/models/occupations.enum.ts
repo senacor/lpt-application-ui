@@ -18,13 +18,13 @@ export enum Occupations {
   SCHOOL_STUDENT = 'Schüler/in',
   SELF_EMPLOYED = 'Sonstiger Selbständige/r',
   OTHER = 'Sonstiges',
-  STUDENT = 'Student/in',
+  STUDENT = 'Student/in'
 }
 
 export const getOccupationsAsSelectValueArray = (): Array<SelectValue> =>
   Object.entries(Occupations).map(
     ([key, value]): SelectValue => ({
       label: value,
-      value: key,
-    }),
+      value: key
+    })
   )

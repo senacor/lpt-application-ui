@@ -6,7 +6,7 @@ export const useApplicationConfigStore = defineStore({
   id: 'applicationConfigStore',
   state: () => ({
     config: null as ApplicationConfig | null,
-    applicationConfigAdapter: new ApplicationConfigAdapter(),
+    applicationConfigAdapter: new ApplicationConfigAdapter()
   }),
   getters: {},
   actions: {
@@ -16,7 +16,7 @@ export const useApplicationConfigStore = defineStore({
     async loadApplicationConfig() {
       await this.applicationConfigAdapter
         .loadApplicationConfig()
-        .then(_ => {
+        .then((_) => {
           this.config = _
         })
         .then(
@@ -25,8 +25,8 @@ export const useApplicationConfigStore = defineStore({
           For easy access from adapters also expose the base urls to window.
           Config is asserted to be not null since if not it's bound to fail anyways..
         */
-            (window.baseUrls = this.config!.baseUrls || null),
+            (window.baseUrls = this.config!.baseUrls || null)
         )
-    },
-  },
+    }
+  }
 })

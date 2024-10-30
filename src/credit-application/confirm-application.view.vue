@@ -29,17 +29,12 @@
       <dd>{{ monthlyExpensesDisplay }}</dd>
     </dl>
 
-    <button
-      :disabled="!decision || !decision.uuid"
-      @click="acceptCreditOffering"
-    >
-      Angebot annehmen
-    </button>
+    <button :disabled="!decision || !decision.uuid" @click="acceptCreditOffering">Angebot annehmen</button>
   </div>
 </template>
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { useCreditApplicationStore } from '@/credit-application/credit-applications.store'
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -47,41 +42,30 @@ const store = useCreditApplicationStore()
 const router = useRouter()
 const { latestRequest, decision } = storeToRefs(store)
 
-const creditAmountDisplay = computed(
-  () =>
-    ((latestRequest.value?.creditAmount || 0) / 1)
-      .toFixed(2)
-      .replace('.', ',')
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €',
-)
+const eur = new Intl.NumberFormat('de-DE', {
+  style: 'currency',
+  currency: 'EUR'
+})
 
-const monthlyNetIncomeDisplay = computed(
+const creditAmountDisplay = computed(() => eur.format(latestRequest.value?.creditAmount || 0))
+
+const monthlyNetIncomeDisplay = computed(() => eur.format(latestRequest.value?.monthlyNetIncome || 0))
+
+computed(
   () =>
     ((latestRequest.value?.monthlyNetIncome || 0) / 1)
       .toFixed(2)
       .replace('.', ',')
       .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €',
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €'
 )
 
-const monthlyExpensesDisplay = computed(
-  () =>
-    ((latestRequest.value?.monthlyExpenses || 0) / 1)
-      .toFixed(2)
-      .replace('.', ',')
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' €',
-)
+const monthlyExpensesDisplay = computed(() => eur.format(latestRequest.value?.monthlyExpenses || 0))
 
 const acceptCreditOffering = () =>
   store
     .acceptCreditOffering()
-    .then(_ =>
-      _
-        ? router.push('/summary')
-        : alert('Ihr Antrag konnte nicht angenommen werden!'),
-    )
+    .then((_) => (_ ? router.push('/summary') : alert('Ihr Antrag konnte nicht angenommen werden!')))
     .catch(() => alert('Ein unerwarteter Fehler ist aufgetreten.'))
 </script>
 

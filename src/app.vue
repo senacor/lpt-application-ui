@@ -6,22 +6,15 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <h1>Der "ich möchte Dinge finanzieren" Kredit 💰</h1>
 
-    <a
-      href="https://www.pexels.com/photo/a-man-online-shopping-6994300/"
-      target="_blank"
-    >
-      <img
-        alt="Man ordering stuff online"
-        src="@/assets/pexels-kindelmedia-6994300.jpg"
-        style="max-width: 600px"
-      />
+    <a href="https://www.pexels.com/photo/a-man-online-shopping-6994300/" target="_blank">
+      <img alt="Man ordering stuff online" src="@/assets/pexels-kindelmedia-6994300.jpg" style="max-width: 600px" />
     </a>
   </header>
 
   <nav>
-    <RouterLink to="/collect">Your Application</RouterLink>
-    <RouterLink to="/confirm">Confirm</RouterLink>
-    <RouterLink to="/Summary">Summary</RouterLink>
+    <RouterLink to="/collect">Ihr Kreditwunsch</RouterLink>
+    <RouterLink to="/confirm">Prüfen</RouterLink>
+    <RouterLink to="/summary">Zusammenfassung</RouterLink>
   </nav>
 
   <main>
@@ -62,7 +55,7 @@ nav a:first-of-type {
   border: 0;
 }
 
-@media (min-width: 1024px) {
+@media (min-width >= 1024px) {
   header {
     display: flex;
     place-items: center;
@@ -79,7 +72,6 @@ nav a:first-of-type {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
     padding: 1rem 0;
     margin-top: 1rem;
   }

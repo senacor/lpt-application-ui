@@ -1,13 +1,7 @@
-<script setup lang="ts"></script>
-
 <template>
   <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
     <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-    <path
-      class="checkmark__check"
-      fill="none"
-      d="M14.1 27.2l7.1 7.2 16.7-16.8"
-    />
+    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
   </svg>
 
   <div class="success-message">
@@ -15,6 +9,22 @@
     <p>Wir kümmern uns nun um alles Weitere!</p>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useCreditApplicationStore } from '@/credit-application/credit-applications.store'
+import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const { decision } = storeToRefs(useCreditApplicationStore())
+const router = useRouter()
+
+onMounted(() => {
+  if (!decision.value) {
+    router.push('/collect')
+  }
+})
+</script>
 
 <style scoped>
 /* Checkmark and CSS taken from https://codepen.io/haniotis/pen/KwvYLO */
@@ -33,7 +43,7 @@ body {
   border-radius: 50%;
   display: block;
   stroke-width: 2;
-  stroke: #ffffff;
+  stroke: #fff;
   stroke-miterlimit: 10;
   box-shadow: inset 0 0 0 #7ac142;
   animation:
@@ -69,6 +79,7 @@ body {
   100% {
     transform: none;
   }
+
   50% {
     transform: scale3d(1.1, 1.1, 1);
   }
