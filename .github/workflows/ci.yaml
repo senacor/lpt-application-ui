@@ -16,6 +16,7 @@ jobs:
         uses: green-coding-berlin/eco-ci-energy-estimation@main
         with:
           task: start-measurement
+          json-output: true
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Checkout Repo Measurement
@@ -79,15 +80,14 @@ jobs:
 #        with:
 #          task: get-measurement
 #          label: 'unit tests'
-      - name: Show Energy Results
+      - name: Show Energy Result
+        id: data-total
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
           task: display-results
-      - name: Run Baseline Measurement
-        uses: green-coding-solutions/eco-ci-energy-estimation@v4
-        with:
-          task: display-results
-          json-output: true
+      - name: Print total data
+        run: |
+          echo "total json: ${{ steps.data-total.outputs.data-total-json }}"
       - name: Store Baseline
         uses: actions/upload-artifact@v3
         with:
