@@ -26,23 +26,26 @@ jobs:
         id: npm-cache-dir
         shell: bash
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-      - name: Cache dependencies
-        uses: actions/cache@v4.0.1
-        id: npm-cache
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
-          path: |
-            ${{ steps.npm-cache-dir.outputs.dir }}
-            /github/home/.cache/Cypress
-          key: npm-cypress-${{ hashFiles('package-lock.json') }}
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            npm-cypress-
-            npm-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Npm Cache Measurement
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
         with:
           task: get-measurement
           label: 'cache npm dependencies'
       - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --no-progress --no-fund
       - name: Install Dependencies Measurement
         uses: green-coding-solutions/eco-ci-energy-estimation@v4
