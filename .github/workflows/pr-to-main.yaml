@@ -58,3 +58,6 @@ jobs:
         shell: bash
         run: |
           gcloud storage cp -r dist/* gs://lpt-ui/
+          # Cache simplification:
+          gcloud storage objects update gs://lpt-ui/* --cache-control="no-cache, no-store, must-revalidate"
+
