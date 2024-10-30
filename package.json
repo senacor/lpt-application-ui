@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
-    "build:gcp": "npm run build -- --mode=gcp",
+    "build": "vite build --base=/lpt-ui/",
+    "build:gcp": "run-s build -- --mode=gcp",
     "preview": "vite preview",
     "test": "vitest",
     "test:single": "npm test -- run",
