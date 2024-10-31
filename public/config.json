@@ -1,0 +1,5 @@
+{
+  "baseUrls": {
+    "creditApplication": "http://creditapplication.api.lpt.senacor.com/api/credit-applications"
+  }
+}
