@@ -161,6 +161,7 @@ jobs:
               } catch (error) {
                 console.log(`Error occurred: ${error.message}`);
               }
+
       - name: Upload energy data
         if: inputs.upload == true
         uses: actions/upload-artifact@v4
