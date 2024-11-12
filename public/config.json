@@ -1,5 +1,5 @@
 {
   "baseUrls": {
-    "creditApplication": "http://creditapplication.api.lpt.senacor.com"
+    "creditApplication": "https://creditapplication.api.lpt.senacor.com"
   }
 }
