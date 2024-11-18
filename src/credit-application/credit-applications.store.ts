@@ -17,8 +17,8 @@ export const useCreditApplicationStore = defineStore({
       return (await this.creditApplicationAdapter.submitCreditApplication(request)).data
     },
     acceptCreditOffering(): Promise<boolean> {
-      if (!!this.decision?.uuid) {
-        return this.creditApplicationAdapter.acceptCreditApplication(this.decision.uuid)
+      if (!!this.decision?.id) {
+        return this.creditApplicationAdapter.acceptCreditApplication(this.decision.id)
       }
 
       return Promise.reject(false)

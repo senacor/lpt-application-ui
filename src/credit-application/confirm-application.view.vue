@@ -2,7 +2,7 @@
   <div class="wrapper">
     <dl>
       <dt>Antrags-ID</dt>
-      <dd>{{ decision?.uuid || '-' }}</dd>
+      <dd>{{ decision?.id || '-' }}</dd>
 
       <dt>Antrags-Status</dt>
       <dd>{{ decision?.decision || '-' }}</dd>
@@ -29,7 +29,7 @@
       <dd>{{ monthlyExpensesDisplay }}</dd>
     </dl>
 
-    <button :disabled="!decision || !decision.uuid" @click="acceptCreditOffering">Angebot annehmen</button>
+    <button :disabled="!decision || !decision.id" @click="acceptCreditOffering">Angebot annehmen</button>
   </div>
 </template>
 <script setup lang="ts">
