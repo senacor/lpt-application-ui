@@ -7,14 +7,23 @@ export const useCreditApplicationStore = defineStore({
   id: 'creditApplicationStore',
   state: () => ({
     decision: null as CreditDecision | null,
-    latestRequest: null as CreditApplicationRequest | null,
+    latestRequest: {
+      creditAmount: 10_000,
+      firstName: '',
+      lastName: '',
+      zipCode: '',
+      occupation: '',
+      monthlyNetIncome: 2_200,
+      monthlyExpenses: 1_600
+    } as CreditApplicationRequest,
     creditApplicationAdapter: new CreditApplicationAdapter()
   }),
   getters: {},
   actions: {
-    async submitApplication(request: CreditApplicationRequest): Promise<CreditDecision> {
+    async submitApplicationAndReturnDecision(request: CreditApplicationRequest): Promise<CreditDecision> {
       this.latestRequest = request
-      return (await this.creditApplicationAdapter.submitCreditApplication(request)).data
+      this.decision = (await this.creditApplicationAdapter.submitCreditApplication(request)).data
+      return this.decision
     },
     acceptCreditOffering(): Promise<boolean> {
       if (!!this.decision?.id) {
