@@ -18,21 +18,14 @@ import type { CreditApplicationRequest } from '@/credit-application/models/credi
 import { CreditDecisionResult } from '@/credit-application/models/credit-decision-result.enum'
 import type { CreditDecision } from '@/credit-application/models/credit-decision.type'
 import type { ValidationErrorItem, ValidationResult } from 'joi'
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const store = useCreditApplicationStore()
 const router = useRouter()
 
-const creditApplicationRequestForm = ref<CreditApplicationRequest>({
-  creditAmount: 10_000,
-  firstName: '',
-  lastName: '',
-  zipCode: '',
-  occupation: '',
-  monthlyNetIncome: 2_200,
-  monthlyExpenses: 1_600
-})
+const creditApplicationRequestForm = storeToRefs(store).latestRequest
 
 const errors = ref<string[]>([])
 
@@ -57,7 +50,7 @@ const validateFormAndRequestCreditDecision = async () => {
   errors.value = validateForm(formValues)
 
   if ((errors.value.length ?? 0) < 1) {
-    handleCreditDecision(await store.submitApplication(formValues))
+    handleCreditDecision(await store.submitApplicationAndReturnDecision(formValues))
   }
 }
 
