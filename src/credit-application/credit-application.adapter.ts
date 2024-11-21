@@ -17,8 +17,8 @@ export class CreditApplicationAdapter {
 
   acceptCreditApplication = (uuid: string): Promise<boolean> =>
     axios
-      .post(`${this.creditApplicationBaseUrl}/api/credit-applications/${uuid}/accept`)
-      .then((response: AxiosResponse) => response.status >= 200 && response.status < 300)
+      .post(`${this.creditApplicationBaseUrl()}/api/credit-applications/${uuid}`)
+      .then((response: AxiosResponse) => response.status == 202)
 
   private creditApplicationBaseUrl = () => this._window.baseUrls.creditApplication
 }
